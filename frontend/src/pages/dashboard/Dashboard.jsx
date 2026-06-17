@@ -92,15 +92,15 @@ const styles = `
   .user-card { padding: 20px 22px; border-bottom: 1px solid #1a1a1a; }
   .user-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
   .user-avatar {
-    width: 42px; height: 42px; border-radius: 50%;
+    width: 42px; height: 42px; min-width: 42px; min-height: 42px; border-radius: 50%;
     background: var(--accent);
     display: flex; align-items: center; justify-content: center;
     font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 17px; color: #fff;
-    flex-shrink: 0; position: relative;
+    flex-shrink: 0; position: relative; aspect-ratio: 1;
   }
   .user-online {
     position: absolute; bottom: 1px; right: 1px;
-    width: 9px; height: 9px; background: #4ade80;
+    width: 9px; height: 9px; min-width: 9px; min-height: 9px; background: #4ade80;
     border-radius: 50%; border: 1.5px solid var(--ink);
   }
   .user-name { font-size: 14px; font-weight: 700; color: var(--bg); }
@@ -163,10 +163,10 @@ const styles = `
   .hamburger-btn:hover { background: var(--border); }
 
   .mobile-avatar-btn {
-    display: none; width: 36px; height: 36px; border-radius: 50%;
+    display: none; width: 36px; height: 36px; min-width: 36px; min-height: 36px; border-radius: 50%;
     background: var(--accent); color: #fff; align-items: center; justify-content: center;
     font-weight: 700; font-size: 15px; cursor: pointer; flex-shrink: 0;
-    border: none; font-family: 'Clash Display', sans-serif;
+    border: none; font-family: 'Clash Display', sans-serif; aspect-ratio: 1;
   }
 
   .notif-btn {
@@ -447,6 +447,18 @@ const styles = `
     .modal-features li { font-size: 12px; }
     .sidebar { width: 85vw; }
     .dash-user-stat-num { font-size: 16px; }
+    .user-card { padding: 14px 16px !important; }
+    .user-top { gap: 10px !important; margin-bottom: 10px !important; }
+    .user-avatar { width: 36px !important; height: 36px !important; min-width: 36px !important; min-height: 36px !important; font-size: 14px !important; }
+    .user-name { font-size: 13px !important; }
+    .user-email { font-size: 10px !important; }
+    .user-stats { grid-template-columns: 1fr; margin-top: 10px !important; }
+    .user-stat { padding: 8px 10px !important; }
+    .user-stat-num { font-size: 16px !important; }
+    .user-stat-label { font-size: 9px !important; }
+    .sidebar-logo { padding: 18px 16px 16px !important; }
+    .logo-text { font-size: 17px !important; }
+    .logo-sub { font-size: 9px !important; }
   }
 
   /* Skeleton shimmer */

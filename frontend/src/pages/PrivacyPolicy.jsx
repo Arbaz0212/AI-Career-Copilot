@@ -286,7 +286,6 @@ export default function PrivacyPolicy() {
         <p>
           <strong>Email:</strong> support.aicareercopilot@gmail.com<br />
           <strong>Company:</strong> AI Career Copilot Technologies<br />
-          <strong>Founder:</strong> Allabakash Arbaz<br />
           <strong>Registered Address:</strong> [Registered Office Address — to be updated]
         </p>
       </div>

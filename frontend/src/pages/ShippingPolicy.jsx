@@ -198,7 +198,7 @@ export default function ShippingPolicy() {
           For questions about this policy, contact:<br />
           <strong>Email:</strong> support.aicareercopilot@gmail.com<br />
           <strong>Company:</strong> AI Career Copilot Technologies<br />
-          <strong>Founder:</strong> Allabakash Arbaz
+          <strong>Entity:</strong> AI Career Copilot Technologies
         </p>
       </div>
     </div>

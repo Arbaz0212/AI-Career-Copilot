@@ -128,10 +128,6 @@ export default function Footer() {
         >
           <p style={{ color: "#475569", fontSize: "13px" }}>
             © 2026 AI Career Copilot. All rights reserved.
-            <br />
-            <span style={{ color: "#64748b", fontSize: "12px" }}>
-              Built by <span style={{ color: "#e84c1e", fontWeight: 600 }}>Allabakash Arbaz</span> — Founder
-            </span>
           </p>
           <div style={{ display: "flex", gap: "16px" }}>
             <a

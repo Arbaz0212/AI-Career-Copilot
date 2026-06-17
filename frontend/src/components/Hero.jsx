@@ -5,15 +5,89 @@ const heroMobileStyles = `
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 @media (max-width: 860px) {
   section[class] {
-    padding: 60px 20px !important;
+    padding: 48px 20px 60px !important;
     flex-direction: column !important;
     text-align: center !important;
     min-height: auto !important;
   }
-  section[class] > div:first-child { width: 100% !important; }
-  section[class] h1 { font-size: clamp(32px, 10vw, 48px) !important; line-height: 1.1 !important; }
-  section[class] p { font-size: clamp(16px, 4vw, 20px) !important; line-height: 1.5 !important; }
-  section[class] > div:last-child { display: none; }
+  section[class] > div:first-child {
+    width: 100% !important;
+    max-width: 560px !important;
+    margin: 0 auto !important;
+  }
+  section[class] h1 {
+    font-size: clamp(34px, 8vw, 42px) !important;
+    line-height: 1.08 !important;
+    margin-bottom: 20px !important;
+  }
+  section[class] p {
+    font-size: 16px !important;
+    line-height: 1.7 !important;
+    max-width: 540px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  section[class] > div:last-child {
+    display: block !important;
+    width: 100% !important;
+    max-width: 350px !important;
+    margin: 36px auto 0 !important;
+  }
+  section[class] > div:last-child > div {
+    width: 100% !important;
+    max-width: 350px !important;
+    margin: 0 auto !important;
+    padding: 24px 20px !important;
+    border-radius: 16px !important;
+  }
+  section[class] > div:last-child svg {
+    width: 120px !important;
+    height: 120px !important;
+  }
+  section[class] > div:last-child svg text {
+    font-size: 28px !important;
+  }
+  /* Center badge on mobile */
+  div[style*="background: #0f0e0a"] {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  /* CTA group */
+  div[style*="display: flex"][style*="gap: 14px"] {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+  div[style*="display: flex"][style*="gap: 14px"] button {
+    width: 100% !important;
+    max-width: 320px !important;
+  }
+  div[style*="display: flex"][style*="gap: 14px"] span {
+    font-size: 12px !important;
+  }
+  /* Score breakdown bars - stack compact */
+  div[style*="textAlign: left"] {
+    margin-top: 4px !important;
+  }
+  div[style*="textAlign: left"] > div {
+    margin-bottom: 8px !important;
+  }
+  div[style*="textAlign: left"] > div > div:first-child {
+    font-size: 11px !important;
+  }
+  #topMissingKeywords {
+    margin-top: 14px !important;
+    padding: 10px !important;
+  }
+}
+@media (max-width: 480px) {
+  section[class] { padding: 40px 16px 50px !important; }
+  section[class] h1 { font-size: clamp(28px, 7vw, 34px) !important; }
+  section[class] p { font-size: 15px !important; }
+  section[class] > div:last-child { max-width: 300px !important; }
+  section[class] > div:last-child > div { padding: 20px 16px !important; max-width: 300px !important; }
+  section[class] > div:last-child svg { width: 100px !important; height: 100px !important; }
+  section[class] > div:last-child svg text { font-size: 24px !important; }
 }
 `;
 
@@ -303,9 +377,8 @@ export default function Hero({ openAuthModal }) {
           </div>
 
           <div
+            id="topMissingKeywords"
             style={{
-              marginTop: "20px",
-              padding: "14px",
               background: "#f5f0e8",
               borderRadius: "10px",
               fontSize: "12px",

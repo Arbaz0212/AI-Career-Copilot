@@ -198,7 +198,7 @@ export default function ContactUs() {
         AI Career Copilot Technologies<br />
         Email: support.aicareercopilot@gmail.com<br />
         <span style={{ color: "#999", fontSize: "13px" }}>
-          Founded by <span style={{ color: "#e84c1e", fontWeight: 600 }}>Allabakash Arbaz</span>
+          AI Career Copilot Technologies
         </span>
       </div>
     </div>
