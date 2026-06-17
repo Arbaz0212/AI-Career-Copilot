@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Landing from "./pages/Landing/Landing";
-import Signup from "./pages/Auth/Signup";
+import Signup from "./pages/Auth/signup";
 import Login from "./pages/Auth/Login";
 import VerifyOTP from "./pages/Auth/VerifyOTP";
-import Dashboard from "./pages/Dashboard/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import GoogleCallback from "./pages/Auth/GoogleCallback";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
