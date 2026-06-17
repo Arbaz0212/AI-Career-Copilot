@@ -172,7 +172,9 @@ export default function AuthModal({ isOpen, onClose }) {
       if (err.message === "popup_closed" || err.message === "user_cancelled") {
         // User closed the popup — just reset, no error toast
       } else {
-        toast.error("Google sign-in failed. Please use email/password.");
+        console.error("Google login error:", err);
+        console.error("Error response:", err?.response?.data);
+        toast.error(err?.response?.data?.detail || `Google sign-in failed: ${err.message}`);
       }
       setGoogleLoading(false);
     }

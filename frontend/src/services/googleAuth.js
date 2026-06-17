@@ -17,7 +17,10 @@ export function googleLogin() {
       return;
     }
 
-    const timer = setTimeout(() => reject(new Error("popup_closed")), 30000);
+    const timer = setTimeout(() => {
+      console.warn("Google auth timed out after 30s");
+      reject(new Error("popup_closed"));
+    }, 30000);
 
     // Use the id_token-based flow — Google returns the credential (JWT)
     // which already contains email, name, and picture — no XHR needed.
