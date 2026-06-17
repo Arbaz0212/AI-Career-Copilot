@@ -72,7 +72,7 @@ export default function Footer() {
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {[
-                { label: "About", href: "#" },
+                { label: "About", href: "/about" },
                 { label: "Contact", href: "/contact" },
               ].map((item) => (
                 <a

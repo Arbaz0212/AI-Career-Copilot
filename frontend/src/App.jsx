@@ -11,6 +11,7 @@ import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import ContactUs from "./pages/ContactUs";
 import ShippingPolicy from "./pages/ShippingPolicy";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/refund" element={<RefundPolicy />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/shipping" element={<ShippingPolicy />} />
+        <Route path="/about" element={<AboutUs />} />
       </Routes>
     </BrowserRouter>
   );
