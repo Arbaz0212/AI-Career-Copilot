@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta, timezone
 import logging
@@ -34,7 +34,7 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 # ── SIGNUP FLOW ────────────────────────────────────────────────────────────────
 
 @router.post("/send-otp")
-def send_otp(user: SendOTPRequest, db: Session = Depends(get_db)):
+def send_otp(user: SendOTPRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
     if existing_user and existing_user.is_verified and existing_user.password:
         raise HTTPException(status_code=400, detail="User already exists. Please login.")
@@ -55,12 +55,12 @@ def send_otp(user: SendOTPRequest, db: Session = Depends(get_db)):
         )
         db.add(new_user)
     db.commit()
-    send_otp_email(user.email, otp)
+    background_tasks.add_task(send_otp_email, user.email, otp)
     return {"message": "OTP sent successfully"}
 
 
 @router.post("/resend-otp")
-def resend_otp(data: ForgotPasswordRequest, db: Session = Depends(get_db)):
+def resend_otp(data: ForgotPasswordRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == data.email).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -73,7 +73,7 @@ def resend_otp(data: ForgotPasswordRequest, db: Session = Depends(get_db)):
     user.otp_sent_at = datetime.now(timezone.utc)
     user.otp_expiry = datetime.now(timezone.utc) + timedelta(minutes=10)
     db.commit()
-    send_otp_email(user.email, otp)
+    background_tasks.add_task(send_otp_email, user.email, otp)
     return {"message": "OTP resent successfully"}
 
 
@@ -185,7 +185,7 @@ def google_auth(data: GoogleAuthRequest, db: Session = Depends(get_db)):
 # ── PASSWORD RESET ─────────────────────────────────────────────────────────────
 
 @router.post("/forgot-password")
-def forgot_password(data: ForgotPasswordRequest, db: Session = Depends(get_db)):
+def forgot_password(data: ForgotPasswordRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == data.email).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -194,7 +194,7 @@ def forgot_password(data: ForgotPasswordRequest, db: Session = Depends(get_db)):
     user.otp_sent_at = datetime.now(timezone.utc)
     user.otp_expiry = datetime.now(timezone.utc) + timedelta(minutes=10)
     db.commit()
-    send_otp_email(user.email, otp)
+    background_tasks.add_task(send_otp_email, user.email, otp)
     return {"message": "Password reset OTP sent"}
 
 

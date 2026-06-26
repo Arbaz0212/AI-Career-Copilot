@@ -34,3 +34,10 @@ backend/test_keys*.py
 
 # Uploads (contains real resumes)
 backend/uploads/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# ChromaDB vector store
+backend/app/chroma_data/

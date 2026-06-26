@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import API from "../services/api";
 import "./AuthModal.css";
 import toast from "react-hot-toast";
 
 export default function AuthModal({ isOpen, onClose }) {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("login");
 
   // Signup fields
@@ -30,6 +32,7 @@ export default function AuthModal({ isOpen, onClose }) {
   const [sendingOtp, setSendingOtp] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [googleStage, setGoogleStage] = useState("popup");
 
   // Restore saved email + reset loading states on mount
   useEffect(() => {
@@ -50,13 +53,6 @@ export default function AuthModal({ isOpen, onClose }) {
     }
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = "auto"; };
-  }, [isOpen]);
-
-  // Initialize Google OAuth when modal opens
-  useEffect(() => {
-    if (isOpen && typeof google !== "undefined" && google.accounts) {
-      import("../services/googleAuth");
-    }
   }, [isOpen]);
 
   const startCooldown = (setter) => {
@@ -131,7 +127,8 @@ export default function AuthModal({ isOpen, onClose }) {
         localStorage.removeItem("remember_email");
       }
 
-      window.location.href = "/dashboard";
+      onClose();
+      navigate("/dashboard");
     } catch (error) {
       toast.error(error?.response?.data?.detail || "Login Failed");
     } finally {
@@ -148,6 +145,7 @@ export default function AuthModal({ isOpen, onClose }) {
     }
 
     setGoogleLoading(true);
+    setGoogleStage("popup");
     try {
       const { googleLogin } = await import("../services/googleAuth");
       const profile = await googleLogin();
@@ -158,6 +156,7 @@ export default function AuthModal({ isOpen, onClose }) {
         return;
       }
 
+      setGoogleStage("signing_in");
       const res = await API.post("/auth/google", {
         email: profile.email,
         name: profile.name,
@@ -167,7 +166,8 @@ export default function AuthModal({ isOpen, onClose }) {
       localStorage.setItem("user_email", profile.email);
       localStorage.setItem("user_name", res.data.full_name || profile.name);
 
-      window.location.href = "/dashboard";
+      onClose();
+      navigate("/dashboard");
     } catch (err) {
       if (err.message === "popup_closed" || err.message === "user_cancelled") {
         // User closed the popup — just reset, no error toast
@@ -276,7 +276,7 @@ export default function AuthModal({ isOpen, onClose }) {
                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                       </svg>
-                      {googleLoading ? "Opening Google..." : "Continue with Google"}
+                      {googleLoading ? (googleStage === "signing_in" ? "Signing in..." : "Opening Google...") : "Continue with Google"}
                     </button>
                   </>
                 ) : (
@@ -294,7 +294,7 @@ export default function AuthModal({ isOpen, onClose }) {
                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                       </svg>
-                      {googleLoading ? "Opening Google..." : "Continue with Google"}
+                      {googleLoading ? (googleStage === "signing_in" ? "Signing in..." : "Opening Google...") : "Continue with Google"}
                     </button>
                   </>
                 )}
