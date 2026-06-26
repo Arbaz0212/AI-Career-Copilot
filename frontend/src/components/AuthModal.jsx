@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import API from "../services/api";
+import { showAuthLoader, hideAuthLoader } from "../utils/authLoader";
 import "./AuthModal.css";
 import toast from "react-hot-toast";
 
@@ -127,6 +128,7 @@ export default function AuthModal({ isOpen, onClose }) {
         localStorage.removeItem("remember_email");
       }
 
+      showAuthLoader();
       onClose();
       navigate("/dashboard");
     } catch (error) {
@@ -156,7 +158,9 @@ export default function AuthModal({ isOpen, onClose }) {
         return;
       }
 
-      setGoogleStage("signing_in");
+      // Show branded loader immediately — covers cold start + API latency
+      showAuthLoader();
+      onClose();
       const res = await API.post("/auth/google", {
         email: profile.email,
         name: profile.name,
@@ -166,7 +170,6 @@ export default function AuthModal({ isOpen, onClose }) {
       localStorage.setItem("user_email", profile.email);
       localStorage.setItem("user_name", res.data.full_name || profile.name);
 
-      onClose();
       navigate("/dashboard");
     } catch (err) {
       if (err.message === "popup_closed" || err.message === "user_cancelled") {
@@ -174,6 +177,7 @@ export default function AuthModal({ isOpen, onClose }) {
       } else {
         console.error("Google login error:", err);
         console.error("Error response:", err?.response?.data);
+        hideAuthLoader();
         toast.error(err?.response?.data?.detail || `Google sign-in failed: ${err.message}`);
       }
       setGoogleLoading(false);

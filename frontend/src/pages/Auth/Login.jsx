@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../services/api";
+import { showAuthLoader } from "../../utils/authLoader";
 
 export default function Login({ switchToSignup }) {
   const [email, setEmail] = useState("");
@@ -30,6 +31,8 @@ export default function Login({ switchToSignup }) {
       localStorage.setItem("user_email", email);
       localStorage.setItem("user_name", username);
 
+      // Show loader — Dashboard will hide it on mount
+      showAuthLoader();
       // Navigate directly — Dashboard will mount fresh and read localStorage correctly
       navigate("/dashboard");
 

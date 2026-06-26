@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ResumeReviewPage from "./ResumeReviewPage";
 import JDMatchPage from "./JDMatchPage";
 import API from "../../services/api";
+import { hideAuthLoader } from "../../utils/authLoader";
 
 // ── STYLES ──────────────────────────────────────────────────────────────────
 const styles = `
@@ -606,6 +607,9 @@ export default function Dashboard() {
   const [scansLoading, setScansLoading] = useState(true);
   const [analysisHistory, setAnalysisHistory] = useState([]);
   const [historyLoading, setHistoryLoading] = useState(false);
+
+  // Hide auth loading overlay — Dashboard has mounted
+  useEffect(() => { hideAuthLoader(); }, []);
 
   const user = {
     name: localStorage.getItem("user_name") || "User",
